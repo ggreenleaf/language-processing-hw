@@ -2,6 +2,7 @@
 import nltk
 from nltk.corpus import brown
 
+
 cfd = nltk.ConditionalFreqDist(
 	(genre,word.lower())
 	for genre in brown.categories()
