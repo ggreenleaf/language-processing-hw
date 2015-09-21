@@ -12,7 +12,7 @@ en_sw = stopwords.words('english')
 # 	return FreqDist([w.lower() for w in wordlist if w.isalpha() and w not in en_sw]).most_common(50)
 
 
-most_common = FreqDist([w.lower() for w in brown.words() if w.isalpha() and w not in en_sw]).most_common(50) 
+most_common = FreqDist([w.lower() for w in brown.words() if w.isalpha() or if w.isdigit() and w not in en_sw]).most_common(50) 
 w_col1 = max([len(w[0]) for w in most_common])
 w_col2 = len(str(max([w[1] for w in most_common])))
 for i,word_info in enumerate(most_common):

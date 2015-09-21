@@ -1,0 +1,14 @@
+homework 1 programming questions 
+
+
+1. file p1.py
+	Write a program to find all words that occur at least three times in the Brown Corpus.
+	
+2. file p2.py
+	Write a function that finds the 50 most frequently occuring words of a text that are not stopwords
+
+3. file p2.py
+	Write a program to print the 50 most frequent bigrams of a text, omitting bigrams that contain stopwords
+
+4. file p3.py
+	Write a program to create a table of word frequencies by genre, like the one given in Section 2.1 for modals. Choose your own words and try to find words whose presence (or absence) is typical of a genre. Discuss your findings.

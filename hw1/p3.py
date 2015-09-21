@@ -13,7 +13,7 @@ l = [(w1, w2, cfd[w1][w2]) for w1 in cfd.keys() for w2 in cfd[w1].keys()]
 def not_stop_or_punc(bigram):
 	'''returns true if bigram is not a stopword or punctuation'''
 	w1,w2,count = bigram
-	return (w1.isalpha() and w1 not in en_sw) and (w2.isalpha() and w2 not in en_sw)
+	return ((w1.isalpha() or w1.isdigit()) and w1 not in en_sw) and (w2.isalpha() or w2.isdigit()) and w2 not in en_sw)
 	
 #filter then sort bigrams
 most_common = sorted(filter(not_stop_or_punc,l),key=lambda x: x[2], reverse=True)[:50]
