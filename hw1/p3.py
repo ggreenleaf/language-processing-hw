@@ -2,31 +2,24 @@ import nltk
 from nltk.corpus import stopwords, brown
 import string
 
-import timeit
-
-
-
 en_sw = stopwords.words("english")
-
 text = [w.lower() for w in brown.words()] #lower all text in brown corpus
 bigrams = nltk.bigrams(text)
 cfd = nltk.ConditionalFreqDist(bigrams)
 
-#flattening dictionary produced by cfd into list
+#flattening dictionary produced by ConditionalFeqDist into list
 l = [(w1, w2, cfd[w1][w2]) for w1 in cfd.keys() for w2 in cfd[w1].keys()]
 
-#filter out all bigrams with stop words and punctuation
-def not_stop_or_punc(bigram_tuple):
-	w1,w2,count = bigram_tuple
+def not_stop_or_punc(bigram):
+	'''returns true if bigram is not a stopword or punctuation'''
+	w1,w2,count = bigram
 	return (w1.isalpha() and w1 not in en_sw) and (w2.isalpha() and w2 not in en_sw)
 	
-#sort by count of bigram and filter out punctuation and stop words
-#filter after sorting
-# for w1,w2,count in filter(not_stop_or_punc,sorted(l,key=lambda x: x[2], reverse=True))[:50]: 
-# 	print "bigram ({},{}) occured count {}".format(w1,w2,count)
-
-
+#filter then sort bigrams
+most_common = sorted(filter(not_stop_or_punc,l),key=lambda x: x[2], reverse=True)[:50]
+col1 = max([len(w1+w2) for w1,w2,count in most_common]) 
+col2 = max([len(str(count)) for w1,w2,count in most_common])
 #filter before sorting
-for w1,w2,count in sorted(filter(not_stop_or_punc,l),key=lambda x: x[2], reverse=True)[:50]:
-	print "bigram ({},{}) occured count {}".format(w1,w2,count)	
-
+for i,word_info in enumerate(most_common):
+	w1,w2,count = word_info
+	print "{0:<3}| {w:<{col1}}|{c:<{col2}}".format(i,w=w1+" " +w2,c=count,col1=col1+1,col2=col2)
