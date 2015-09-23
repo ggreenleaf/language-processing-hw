@@ -13,12 +13,12 @@ def top50_bigrams_nostop(wordlist):
 	def not_stop_or_punc(bigram):
 		'''returns true if bigram is not a stopword and not a punctuation mark'''
 		w1,w2,count = bigram
-		#return w1 not in en_sw and w2 not in en_sw
-		#assume if any char in a word is a digit or charcter then any punctuation
-		#in the word is part of the word
+	
+		#if both words do not contain a digit or alpha and not in stopwords
 		return ((any(c.isalpha() or c.isdigit() for c in w1) and w1 not in en_sw) and 
-		(any(c.isalpha() or c.isdigit() for c in w2) and w2 not in en_sw))
+				(any(c.isalpha() or c.isdigit() for c in w2) and w2 not in en_sw))
 		
+	
 	#filter then sort bigrams
 	most_common = sorted(filter(not_stop_or_punc,l),key=lambda x: x[2], reverse=True)[:50]
 
