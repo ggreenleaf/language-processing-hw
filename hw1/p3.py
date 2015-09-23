@@ -11,15 +11,21 @@ def top50_bigrams_nostop(wordlist):
 	l = [(w1, w2, cfd[w1][w2]) for w1 in cfd.keys() for w2 in cfd[w1].keys()]
 
 	def not_stop_or_punc(bigram):
-		'''returns true if bigram is not a stopword or punctuation'''
+		'''returns true if bigram is not a stopword and not a punctuation mark'''
 		w1,w2,count = bigram
-		return ((w1.isalpha() or w1.isdigit()) and w1 not in en_sw) and ((w2.isalpha() or w2.isdigit()) and w2 not in en_sw)
+		#return w1 not in en_sw and w2 not in en_sw
+		#assume if any char in a word is a digit or charcter then any punctuation
+		#in the word is part of the word
+		return ((any(c.isalpha() or c.isdigit() for c in w1) and w1 not in en_sw) and 
+		(any(c.isalpha() or c.isdigit() for c in w2) and w2 not in en_sw))
 		
 	#filter then sort bigrams
 	most_common = sorted(filter(not_stop_or_punc,l),key=lambda x: x[2], reverse=True)[:50]
-	col1 = max([len(w1+w2) for w1,w2,count in most_common]) 
-	col2 = max([len(str(count)) for w1,w2,count in most_common])
-	#filter before sorting
+
+	col1 = max([len(w1+w2) for w1,w2,count in most_common])  #longest bigram
+	col2 = max([len(str(count)) for w1,w2,count in most_common]) #length of the digit with largest numbers
+
+	#displaying the most common
 	for i,word_info in enumerate(most_common):
 		w1,w2,count = word_info
 		print "{0:<3}| {w:<{col1}}|{c:<{col2}}".format(i,w=w1+" " +w2,c=count,col1=col1+1,col2=col2)
