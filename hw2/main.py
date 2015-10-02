@@ -2,6 +2,7 @@ import simple_nlp as nlp
 
 with open("books/Aether and Gravitation.txt") as f:
 	aether = f.read()
+
 with open("books/Frankenstein.txt") as f:
 	frankenstein = f.read()
 
@@ -40,16 +41,16 @@ if __name__ == "__main__":
 	sents = enumerate(generate_trigram_text(aether))
 	write_file("Aether and Gravitation","trigram",sents)
 	#Frankenstein bigrams
-	sents = enumerate(generate_bigram_text(aether))
+	sents = enumerate(generate_bigram_text(frankenstein))
 	write_file("Frankenstein","bigram",sents)
 	#Frankenstein trigrams
-	sents = enumerate(generate_trigram_text(aether))
+	sents = enumerate(generate_trigram_text(frankenstein))
 	write_file("Frankenstein","trigram",sents)
 	#combined bigrams
-	sents = enumerate(generate_bigram_text(aether))
+	sents = enumerate(generate_bigram_text(aether+frankenstein))
 	write_file("Aether and Gravitation with Frankenstein","bigram",sents)
 	#combined trigrames
-	sents = enumerate(generate_trigram_text(aether))
+	sents = enumerate(generate_trigram_text(aether+frankenstein))
 	write_file("Aether and Gravitation with Frankenstein","trigram",sents)
 
 
