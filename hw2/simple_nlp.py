@@ -47,16 +47,12 @@ def generate_sent(fd):
 	# prob = random() #get random probability between 0-1
 	# print probs
 	# while sentence[-1] != ("</s>"):
-	count = 0
-	while sentence[-1] != "</s>" and count < 10:
+	while sentence[-1] != "</s>":
 		cur_word = sentence[-1]
 		p = random() #generate a random probability 0-1
 		table = get_prob_table(fd,cur_word)	#generate a new probability table for given current word										
 		word = get_next_word(p,table) #get next word based on probability table
 		sentence.append(word)
-		count += 1
-
-
 
 	return " ".join([word for word in sentence[1:-1]])
 
