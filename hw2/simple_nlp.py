@@ -41,34 +41,31 @@ def freq_dist(words):
 	return d
 
 def generate_sent(fd):
-	'''generate a sentence given a freq_dist'''
+	'''generate a sentence given a frequency distribution of words'''
 	sentence = ["<s>"] #start of a sentence is always a <s>
-	
-	# prob = random() #get random probability between 0-1
-	# print probs
-	# while sentence[-1] != ("</s>"):
+
 	while sentence[-1] != "</s>":
 		cur_word = sentence[-1]
-		p = random() #generate a random probability 0-1
 		table = get_prob_table(fd,cur_word)	#generate a new probability table for given current word										
-		word = get_next_word(p,table) #get next word based on probability table
+		word = get_next_word(table) #get next word based on probability table
 		sentence.append(word)
 
-	return " ".join([word for word in sentence[1:-1]])
+	return " ".join([word for word in sentence[1:-1]]) #ignore the first and last because they are sentence markers
 
-def get_next_word(p,prob_table):
+def get_next_word(prob_table):
 	cur_total = 0
-	for key, prob in sorted(prob_table.items(), key=lambda x: x[1], reverse=True):
+	p = random()
+	for key, prob in sorted(prob_table.items(), key=lambda x: x[-1], reverse=True): #last element of items is the probability
+		print "key",key
 		cur_total += prob
 		if p < cur_total:
-			return key[1]
+			return key[-1]
 
 def get_prob_table(fd,word):
 	prob_table = defaultdict(float)
 	#sum of the total number of occurences of ngram whose 1st word is word
 	total = sum([fd[key] for key in fd.keys() if key[0] == word]) 
 	ngrams = [key for key in fd.keys() if key[0] == word] #list of keys whose first word is word
-	
 	
 	for key in ngrams: 
 		prob_table[key] = float(fd[key]) / total
