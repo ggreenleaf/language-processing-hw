@@ -32,7 +32,6 @@ def bigrams(words):
 def trigrams(words):
 	return [(words[i-2],words[i-1],words[i]) for i in xrange(2,len(words))] 
 
-
 def freq_dist(words):
 	'''return a dictionary whose key is a word in words 
 	and value is the number of occurences in words'''
@@ -40,26 +39,35 @@ def freq_dist(words):
 	for w in words: d[w] += 1
 	return d
 
+
+def strip(words):
+	'''strip markers from word list and fix basic grammar'''
+
+	sentence = " ".join(word for word in filter(lambda x: x != "<s>" and x != "</s>", words))
+	sentence = sentence[:-2] + sentence[-1:]
+	return sentence.capitalize()
+
 def generate_sent(fd):
 	'''generate a sentence given a frequency distribution of words'''
 	sentence = ["<s>"] #start of a sentence is always a <s>
-
-	while sentence[-1] != "</s>":
+	# while sentence[-1] != "</s>":
+	while "</s>" not in sentence:
 		cur_word = sentence[-1]
 		table = get_prob_table(fd,cur_word)	#generate a new probability table for given current word										
-		word = get_next_word(table) #get next word based on probability table
-		sentence.append(word)
+		word_list = get_next_word(table) #get next word based on probability table
+		# sentence.append(word)
+		sentence.extend(word_list)
 
-	return " ".join([word for word in sentence[1:-1]]) #ignore the first and last because they are sentence markers
+	return strip(sentence)
 
 def get_next_word(prob_table):
+	'''returns a list of words'''
 	cur_total = 0
 	p = random()
 	for key, prob in sorted(prob_table.items(), key=lambda x: x[-1], reverse=True): #last element of items is the probability
-		print "key",key
 		cur_total += prob
 		if p < cur_total:
-			return key[-1]
+			return key[1:] #if using n grame we need to add the next 1-n words of the ngram
 
 def get_prob_table(fd,word):
 	prob_table = defaultdict(float)
@@ -69,7 +77,6 @@ def get_prob_table(fd,word):
 	
 	for key in ngrams: 
 		prob_table[key] = float(fd[key]) / total
-
 
 	return prob_table
 
