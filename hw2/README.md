@@ -1,3 +1,5 @@
+<h1>Homework Description</h1>
+
 Select two different ebooks of your choosing from Project Gutenberg:
 http://www.gutenberg.org/
 
@@ -15,3 +17,17 @@ The text of your two chosen books
 All your source code with a brief description of how to build and compile.
 The contents of your six generated text examples
 All elements should be archived into a single file.
+
+
+<h1>Running Program</h1>
+
+First you need to have python installed on your system. 
+
+you can run the program from the command line by running the following command
+
+python main.py book1Path book2Path sentFile
+
+where book1Path is the path to the first text and book2Path is the path to the second text
+
+The last argument is the file name you want to save the generated sentences to.
+

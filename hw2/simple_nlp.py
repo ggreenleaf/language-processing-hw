@@ -1,5 +1,6 @@
 from collections import defaultdict
 from random import random 
+
 def mark_sents(words):
 	'''return words with <s>,</s> marking the start and 
 	end of sentences. Each <s> is a word'''
@@ -65,7 +66,7 @@ def get_next_word(prob_table):
 	cur_total = 0
 	p = random()
 	for key, prob in sorted(prob_table.items(), key=lambda x: x[-1], reverse=True): #last element of items is the probability
-		cur_total += prob
+		cur_total += prob 
 		if p < cur_total:
 			return key[1:] #if using n grame we need to add the next 1-n words of the ngram
 

@@ -1,10 +1,6 @@
 import simple_nlp as nlp
+from sys import argv
 
-with open("books/Aether and Gravitation.txt") as f:
-	aether = f.read()
-
-with open("books/Frankenstein.txt") as f:
-	frankenstein = f.read()
 
 
 
@@ -25,8 +21,9 @@ def write_file(title,model,sents):
 	'''title text model is based from
 	   ngram model to write
 	   list of sentences to write to file'''
-	with open("my sents.txt","a") as f:
-		f.write("{title} sentences based of {model} language model\n\n".format(title=title,model=model))
+	sentfile = argv[3]
+	with open(sentfile,"a") as f:
+		f.write("\n\n{title} sentences based off {model} language model\n\n".format(title=title,model=model))
 		for i, sent in sents:
 			f.write("{i}. {sent}\n".format(i=i,sent=sent))
 
@@ -34,24 +31,32 @@ def write_file(title,model,sents):
 
 
 if __name__ == "__main__":
-	#Aether bigrams
-	sents = enumerate(generate_bigram_text(aether))
-	write_file("Aether and Gravitation","bigram",sents)
-	#Aether trigrams
-	sents = enumerate(generate_trigram_text(aether))
-	write_file("Aether and Gravitation","trigram",sents)
-	#Frankenstein bigrams
-	sents = enumerate(generate_bigram_text(frankenstein))
-	write_file("Frankenstein","bigram",sents)
-	#Frankenstein trigrams
-	sents = enumerate(generate_trigram_text(frankenstein))
-	write_file("Frankenstein","trigram",sents)
+	book1 = argv[1]
+	book2 = argv[2]
+	with open(book1) as f:
+		text1 = f.read()
+
+	with open(book2) as f:
+		text2 = f.read()
+
+	#text1 bigrams
+	sents = enumerate(generate_bigram_text(text1))
+	write_file("text1","bigram",sents)
+	#text1 trigrams
+	sents = enumerate(generate_trigram_text(text1))
+	write_file("text1","trigram",sents)
+	#text2 bigrams
+	sents = enumerate(generate_bigram_text(text2))
+	write_file("text2","bigram",sents)
+	#text2 trigrams
+	sents = enumerate(generate_trigram_text(text2))
+	write_file("text2","trigram",sents)
 	#combined bigrams
-	sents = enumerate(generate_bigram_text(aether+frankenstein))
-	write_file("Aether and Gravitation with Frankenstein","bigram",sents)
+	sents = enumerate(generate_bigram_text(text1+text2))
+	write_file("text1 and text2","bigram",sents)
 	#combined trigrames
-	sents = enumerate(generate_trigram_text(aether+frankenstein))
-	write_file("Aether and Gravitation with Frankenstein","trigram",sents)
+	sents = enumerate(generate_trigram_text(text1+text2))
+	write_file("text1 and text2","trigram",sents)
 
 
 
